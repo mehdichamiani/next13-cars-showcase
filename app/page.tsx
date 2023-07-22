@@ -1,18 +1,29 @@
-import { SearchBar, CustomFilter, Hero, CarCard, ShowMore } from "@/components"
-import { fuels, yearsOfProduction } from "@/constants"
-import { fetchCars } from "@/utils"
-import Image from "next/image"
+import { SearchBar, CustomFilter, Hero, CarCard, ShowMore } from "@/components";
+import { fuels, yearsOfProduction } from "@/constants";
+import { fetchCars } from "@/utils";
+import Image from "next/image";
+interface SearchParamsProps {
+  manufacturer?: string;
+  year?: number;
+  fuel?: string;
+  limit?: number;
+  model?: string;
+}
 
-export default async function Home({ searchParams }) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: SearchParamsProps;
+}) {
   const allCars = await fetchCars({
     manufacturer: searchParams.manufacturer || "",
     year: searchParams.year || 2022,
     fuel: searchParams.fuel || "",
     limit: searchParams.limit || 12,
     model: searchParams.model || "",
-  })
+  });
 
-  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
+  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
   return (
     <main className="overflow-hidden">
@@ -50,5 +61,5 @@ export default async function Home({ searchParams }) {
         )}
       </div>
     </main>
-  )
+  );
 }
